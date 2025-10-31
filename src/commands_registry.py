@@ -1,11 +1,16 @@
-COMMANDS = {}
+from commands.builtin_cd import Cd
+
+
+COMMANDS = {
+    'cd': Cd(),
+}
 
 
 def get_command(name):
-    """Возвращает объект команды по имени или None."""
+    """Возвращает объект команды по имени или None"""
     return COMMANDS.get(name)
 
 
 def all_commands():
-    """Отсортированный список доступных имен команд (для help)."""
+    """Отсортированный список доступных имен команд для help"""
     return sorted(COMMANDS.keys())
