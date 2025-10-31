@@ -1,0 +1,7 @@
+undo
+rm run.py
+undo
+ls
+rm run.py
+rm run.py
+history

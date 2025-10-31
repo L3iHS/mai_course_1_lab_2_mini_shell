@@ -4,6 +4,8 @@ from src.commands.builtin_cat import Cat
 from src.commands.builtin_cp import Cp
 from src.commands.builtin_mv import Mv
 from src.commands.builtin_rm import Rm
+from src.commands.builtin_history import HistoryCmd
+from src.commands.builtin_undo import Undo
 
 
 COMMANDS = {
@@ -13,6 +15,8 @@ COMMANDS = {
     "cp": Cp(),
     "mv": Mv(),
     "rm": Rm(),
+    "history": HistoryCmd(),
+    "undo": Undo()
 }
 
 

@@ -4,6 +4,10 @@ from src.commands.base import Command
 from src.paths import to_path
 
 
+TRASH_DIR = Path("src/data/.trash")
+TRASH_DIR.mkdir(parents=True, exist_ok=True)
+
+
 class Rm(Command):
     """
     Удаление файлов и каталогов
@@ -44,12 +48,14 @@ class Rm(Command):
 
         if not target.exists():
             raise FileNotFoundError("Файл или каталог не существует")
-
+        
         try:
+            trash_target = TRASH_DIR / target.name
+
             if target.is_dir():
                 if not recursive:
                     raise IsADirectoryError(
-                        "Указан каталог, чтобы его рекурсивно удалсить используйте флаг -r"
+                        "Указан каталог, чтобы его рекурсивно удалить используйте флаг -r"
                     )
 
                 confirm = input(f"Вы уверены, что хотите удалить {target}? (y/n): ")
@@ -57,10 +63,11 @@ class Rm(Command):
                     print("Удаление отменено")
                     return
 
-                shutil.rmtree(target)  # удаляет весь каталог рекурсивно
-            else:
-                target.unlink()  # удаляет файл
+            # перемещаем в .trash вместо удаления
+            shutil.move(str(target), str(trash_target))
+            print(f"{target} перемещён в корзину (.trash)")
 
-            print(f"{target} успешно удалён")
         except PermissionError:
             raise PermissionError("Недостаточно прав для удаления")
+        except Exception as e:
+            print(f"Ошибка при удалении: {e}")

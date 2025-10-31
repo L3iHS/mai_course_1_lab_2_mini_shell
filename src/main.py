@@ -1,6 +1,7 @@
 from pathlib import Path
 from src.commands_registry import get_command, all_commands
 from src.logger import get_logger
+from src.commands.builtin_history import HISTORY_FILE
 import typer
 
 
@@ -137,6 +138,11 @@ def run_once(cmd: str, cwd: Path | None = None, env: dict | None = None) -> tupl
     env = env or {"cwd": cwd, "undo": []}
 
     logger.info(cmd)
+    
+    if not cmd.strip().startswith("undo"):
+        HISTORY_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(HISTORY_FILE, "a", encoding="utf-8") as f:
+            f.write(cmd + "\n")
 
     name, args = parse(cmd)
     command = get_command(name)
@@ -181,8 +187,6 @@ def run_repl():
         if not line.strip():
             continue
 
-        logger.info(line)
-
         if line.strip() in ("exit", "quit"):
             break
         if line.strip() == "help":
@@ -193,22 +197,9 @@ def run_repl():
             print_help_for(name)
             continue
 
-        name, args = parse(line)
-        cmd = get_command(name)
-        if not cmd:
-            print(f"Неизвестная команда: {name}")
-            logger.info("ERROR: Unknown command")
-            continue
-
-        try:
-            new_cwd = cmd.run(args, cwd, env)
-            if new_cwd is not None:
-                cwd = new_cwd
-        except Exception as e:
-            print("Ошибка:", e)
-            logger.info(f"ERROR: {e}")
+        cwd, env = run_once(line, cwd=cwd, env=env)
 
 if __name__ == "__main__":
-    # python -m src.main run-repl
-    # python -m src.main run-repl --help
+    # python3 -m src.main run-repl
+    # python3 -m src.main run-repl --help
     app()
