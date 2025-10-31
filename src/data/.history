@@ -24,3 +24,7 @@ grep main src/
 grep -ri error logs
 grep main src/main.py
 grep -ri error shell.log
+ls
+cd src
+cd ..
+lsd

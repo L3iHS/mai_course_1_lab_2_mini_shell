@@ -1,8 +1,10 @@
+import typer
+
 from pathlib import Path
 from src.commands_registry import get_command, all_commands
 from src.logger import get_logger
 from src.commands.builtin_history import HISTORY_FILE
-import typer
+from src.colors import CYAN, RESET, GREEN, RED
 
 
 app = typer.Typer(help="Мини-оболочка с файловыми командами")
@@ -138,7 +140,7 @@ def run_once(cmd: str, cwd: Path | None = None, env: dict | None = None) -> tupl
     env = env or {"cwd": cwd, "undo": []}
 
     logger.info(cmd)
-    
+
     if not cmd.strip().startswith("undo"):
         HISTORY_FILE.parent.mkdir(parents=True, exist_ok=True)
         with open(HISTORY_FILE, "a", encoding="utf-8") as f:
@@ -156,7 +158,7 @@ def run_once(cmd: str, cwd: Path | None = None, env: dict | None = None) -> tupl
         if new_cwd is not None:
             cwd = new_cwd
     except Exception as exc:
-        print(f"Ошибка: {exc}")
+        print(f"{RED}Ошибка:{RESET} {exc}")
         logger.info(f"ERROR: {exc}")
 
     return cwd, env
@@ -178,8 +180,8 @@ def run_repl():
 
     while True:
         try:
-            prompt = cwd.name if cwd.name else "/"
-            line = input(f"{prompt}> ")
+            prompt = f"{CYAN}{cwd.name if cwd.name else '/'}{RESET}"
+            line = input(f"{prompt}{GREEN}> {RESET}")
         except (EOFError, KeyboardInterrupt):
             print()
             break
