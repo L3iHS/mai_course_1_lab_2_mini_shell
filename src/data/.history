@@ -5,3 +5,22 @@ ls
 rm run.py
 rm run.py
 history
+zip src src.zip
+unzip src.zip
+zip src bla.zip
+unzip bla.zip
+tar src bla.tag.gz
+zip src bla.zip 
+unzip bla.zip
+unzip bla.zip
+zip src bla.zip 
+import re
+from pathlib import Path
+from src.commands.base import Command
+from src.paths import to_path
+class Grep(Command):
+    """
+grep main src/
+grep -ri error logs
+grep main src/main.py
+grep -ri error shell.log
