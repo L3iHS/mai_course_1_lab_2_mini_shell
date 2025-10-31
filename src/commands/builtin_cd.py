@@ -1,7 +1,6 @@
 from pathlib import Path
-
-from commands.base import Command
-from paths import to_path
+from src.commands.base import Command
+from src.paths import to_path
 
 
 class Cd(Command):
@@ -16,7 +15,7 @@ class Cd(Command):
         if not args:
             raise ValueError("Нужно указать путь")
 
-        target = to_path(args[0], cwd)
+        target = to_path(args[0], cwd)  # меняем cwd на переданный путь
 
         if not target.exists():
             raise FileNotFoundError("Каталог не существует")

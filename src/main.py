@@ -1,6 +1,6 @@
 from pathlib import Path
-from commands_registry import get_command, all_commands
-from logger import get_logger
+from src.commands_registry import get_command, all_commands
+from src.logger import get_logger
 import typer
 
 
@@ -67,14 +67,40 @@ def exec_once(cmd: str) -> None:
 
 
 def parse(line: str):
-    parts = [p for p in line.strip().split() if p]
-    if not parts:
+    """Разбивает строку на аргументы, учитывая кавычки и пробелы"""
+    args = []
+    current = ""
+    quote = None
+
+    for ch in line:
+        if quote:  # зашли в кавычки
+            if ch == quote:
+                quote = None  # конец кавычек
+            else:
+                current += ch
+        else:
+            if ch in ("'", '"'):
+                quote = ch
+            elif ch.isspace():
+                if current:
+                    args.append(current)
+                    current = ""
+            else:
+                current += ch
+
+    if quote is not None:
+        raise ValueError("Не все кавычки закрыты")
+    
+    if current:
+        args.append(current)
+
+    if not args:
         return "", []
-    return parts[0], parts[1:]
+    return args[0], args[1:]
 
 
 def print_help_overview() -> None:
-    """Печатает список всех команд с их кратким синопсисом"""
+    """Печатает список всех команд с их кратким описанием"""
     names = all_commands()
     if not names:
         print("(команды пока не зарегистрированы)")
@@ -185,4 +211,4 @@ def run_repl():
 if __name__ == "__main__":
     # python -m src.main run-repl
     # python -m src.main run-repl --help
-    run_repl()
+    app()

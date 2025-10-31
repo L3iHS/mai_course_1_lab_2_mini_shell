@@ -4,6 +4,7 @@ from pathlib import Path
 class Command:
     """
     Базовый класс для всех команд
+    чтобы удобнее пользоваться getattr
     """
 
     name: str               # имя команды
@@ -12,7 +13,8 @@ class Command:
 
     def run(self, args: list[str], cwd: Path, env: dict) -> Path | None:
         """
-        Выполняет команду.
+        Выполняет команду
+        
         - args: список аргументов
         - cwd: текущий рабочий каталог
         - env: для undo 

@@ -1,9 +1,10 @@
-from pathlib import Path
-from datetime import datetime
 import stat
 
-from commands.base import Command
-from paths import to_path
+from pathlib import Path
+from datetime import datetime
+
+from src.commands.base import Command
+from src.paths import to_path
 
 
 def format_long(p: Path) -> str:

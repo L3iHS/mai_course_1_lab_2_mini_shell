@@ -6,7 +6,7 @@ HOME = Path.home()
 
 def to_path(arg, cwd: Path) -> Path:
     """
-    Преобразует ввод пользователя в абсолютный Path.
+    Преобразует ввод пользователя в абсолютный Path
     """
     if arg is None or str(arg).strip() == "":
         return cwd
@@ -33,7 +33,7 @@ def forbid_dangerous_delete(p: Path) -> None:
 
     root = Path(rp.anchor) # возвращает корневой каталог в зависомисти от системы
     if rp == root:
-        raise PermissionError("Удаление корневого каталога запрещено.")
+        raise PermissionError("Удаление корневого каталога запрещено")
 
     if rp.name == "..":
-        raise PermissionError("Удаление '..' запрещено.")
+        raise PermissionError("Удаление '..' запрещено")
