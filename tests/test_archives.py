@@ -2,7 +2,6 @@ from src.main import run_once
 
 
 def test_zip_unzip(tmp_path):
-    # подготовка каталога
     src = tmp_path / "srcdir"
     src.mkdir(parents=True, exist_ok=True)
     (src / "file.txt").write_text("data")
@@ -11,7 +10,7 @@ def test_zip_unzip(tmp_path):
     run_once(f"zip {src} arc.zip", cwd=tmp_path)
     assert (tmp_path / "arc.zip").exists()
 
-    # unzip — текущая реализация распаковывает прямо в текущую директорию
+    # unzip текущая реализация распаковывает прямо в текущую директорию
     run_once("unzip arc.zip", cwd=tmp_path)
 
     # Проверяем, что файл появился в текущей папке
@@ -27,7 +26,7 @@ def test_tar_untar(tmp_path):
     run_once(f"tar {src} data.tar.gz", cwd=tmp_path)
     assert (tmp_path / "data.tar.gz").exists()
 
-    # untar — создаёт папку folder/
+    # untar создаёт папку folder/
     run_once("untar data.tar.gz", cwd=tmp_path)
     extracted = tmp_path / "folder"
     assert extracted.is_dir()

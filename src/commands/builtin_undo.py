@@ -47,15 +47,15 @@ class Undo(Command):
                 dst = Path(rest[-1])
                 if dst.exists():
                     if dst.is_dir():
-                        shutil.rmtree(dst)
+                        shutil.rmtree(dst)  # удаляем рекурсивно каталог
                     else:
-                        dst.unlink()
+                        dst.unlink()  # удаляем файл
                     print(f"Удалён {dst}")
 
             elif cmd == "mv" and len(rest) >= 2:
                 src, dst = Path(rest[0]), Path(rest[-1])
                 if dst.exists():
-                    shutil.move(dst, src)
+                    shutil.move(dst, src)  # просто перемещаем обратно
                     print(f"Файл возвращён: {dst} → {src}")
 
             elif cmd == "rm" and len(rest) >= 1:

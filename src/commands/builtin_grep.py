@@ -35,16 +35,16 @@ class Grep(Command):
             raise FileNotFoundError(f"{path} не найден")
 
         flags = re.IGNORECASE if ignore_case else 0
-        regex = re.compile(pattern, flags)
+        regex = re.compile(pattern, flags)  # делает шаблон для поиска
 
         files = []
         if path.is_file():
             files = [path]
         elif path.is_dir():
             if recursive:
-                files = [p for p in path.rglob("*") if p.is_file()]
+                files = [p for p in path.rglob("*") if p.is_file()]  # по пути рекурсивно ищет файлы и каталоги
             else:
-                files = [p for p in path.iterdir() if p.is_file()]
+                files = [p for p in path.iterdir() if p.is_file()]  # перечисляет содержимое каталога
         else:
             raise ValueError("Указан неверный путь")
 
@@ -53,7 +53,7 @@ class Grep(Command):
             try:
                 with open(file, "r", encoding="utf-8", errors="ignore") as f:
                     for lineno, line in enumerate(f, start=1):
-                        if regex.search(line):
+                        if regex.search(line):  # находит первое вхождение regex в строке
                             matches += 1
                             print(f"{file}:{lineno}:{line.strip()}")
             except Exception as e:

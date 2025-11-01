@@ -30,5 +30,5 @@ class Zip(Command):
 
         with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as zipf:
             for file in folder.rglob("*"):
-                zipf.write(file, file.relative_to(folder))
+                zipf.write(file, file.relative_to(folder)) # путь внутри архива относительно папки
         print(f"Архив {archive} успешно создан")

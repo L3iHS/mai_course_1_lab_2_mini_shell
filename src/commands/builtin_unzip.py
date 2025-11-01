@@ -27,6 +27,6 @@ class Unzip(Command):
             raise FileNotFoundError("Архив не найден")
 
         with zipfile.ZipFile(archive, "r") as zipf:
-            zipf.extractall(cwd)
+            zipf.extractall(cwd)  # извлекает все файлы из архива
 
         print(f"Архив {archive.name} успешно распакован в {cwd}")
