@@ -14,12 +14,6 @@ zip src bla.zip
 unzip bla.zip
 unzip bla.zip
 zip src bla.zip 
-import re
-from pathlib import Path
-from src.commands.base import Command
-from src.paths import to_path
-class Grep(Command):
-    """
 grep main src/
 grep -ri error logs
 grep main src/main.py

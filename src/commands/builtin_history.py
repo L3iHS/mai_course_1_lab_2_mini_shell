@@ -25,5 +25,5 @@ class HistoryCmd(Command):
             return
 
         lines = HISTORY_FILE.read_text(encoding="utf-8").splitlines()
-        for i, cmd in enumerate(lines[-n:], start=max(1, len(lines) - n + 1)):
+        for i, cmd in enumerate(lines[-n:], start=max(1, len(lines) - n + 1)):  # чтобы не уходило в отрицательные
             print(f"{i}: {cmd}")
